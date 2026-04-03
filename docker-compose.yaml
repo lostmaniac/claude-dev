@@ -1,13 +1,10 @@
-version: '3.8'
-
 services:
   claude-dev:
-    build: .
+    image: ghcr.io/lostmaniac/claude-dev:latest
     container_name: claude-dev
     ports:
       - "2222:22"
     volumes:
       - ./root:/root
       - ./data:/data
-    privileged: true
     restart: unless-stopped
