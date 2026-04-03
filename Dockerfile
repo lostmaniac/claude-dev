@@ -59,8 +59,8 @@ ENV PATH="/root/.cargo/bin:$PATH"
 ENV NVM_DIR="/root/.nvm"
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 
-# 加载nvm并安装最新Node.js
-RUN bash -c 'source $NVM_DIR/nvm.sh && nvm install node && nvm use node && nvm alias default node'
+# 加载nvm并安装稳定版Node.js，同时设置npm国内源
+RUN bash -c 'source $NVM_DIR/nvm.sh && nvm install --lts && nvm use --lts && nvm alias default node && npm config set registry https://registry.npmmirror.com'
 
 # 设置Node.js环境变量
 ENV NODE_PATH="/root/.nvm/versions/node/$(bash -c 'source $NVM_DIR/nvm.sh && nvm current')/lib/node_modules"
@@ -73,9 +73,6 @@ ENV PATH="/root/.local/bin:$PATH"
 # 设置 apt 国内源（清华源）- Ubuntu 24.04 使用 DEB822 格式
 RUN sed -i 's|URIs: http://archive.ubuntu.com/ubuntu|URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources && \
     sed -i 's|URIs: http://security.ubuntu.com/ubuntu|URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources
-
-# 设置 npm 国内源（淘宝镜像）
-RUN npm config set registry https://registry.npmmirror.com
 
 # 设置 pip 国内源（清华源）
 RUN mkdir -p ~/.pip && \
