@@ -3,10 +3,6 @@ FROM ubuntu:24.04
 # 设置非交互式安装
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 设置 apt 国内源（清华源）- Ubuntu 24.04 使用 DEB822 格式
-RUN sed -i 's|URIs: http://archive.ubuntu.com/ubuntu|URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources && \
-    sed -i 's|URIs: http://security.ubuntu.com/ubuntu|URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources
-
 # 安装基础依赖、SSH和常用开发工具
 RUN apt-get update && apt-get install -y \
     curl \
@@ -73,6 +69,10 @@ ENV PATH="/root/.nvm/versions/node/$(bash -c 'source $NVM_DIR/nvm.sh && nvm curr
 # 安装Claude Code
 RUN curl -fsSL https://claude.ai/install.sh | bash
 ENV PATH="/root/.local/bin:$PATH"
+
+# 设置 apt 国内源（清华源）- Ubuntu 24.04 使用 DEB822 格式
+RUN sed -i 's|URIs: http://archive.ubuntu.com/ubuntu|URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources && \
+    sed -i 's|URIs: http://security.ubuntu.com/ubuntu|URIs: https://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources
 
 # 设置 npm 国内源（淘宝镜像）
 RUN npm config set registry https://registry.npmmirror.com
