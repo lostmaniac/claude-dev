@@ -3,14 +3,41 @@ FROM ubuntu:24.04
 # 设置非交互式安装
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 安装基础依赖和SSH
+# 安装基础依赖、SSH和常用开发工具
 RUN apt-get update && apt-get install -y \
     curl \
+    wget \
+    nano \
+    vim \
+    tmux \
+    htop \
+    tree \
+    iputils-ping \
+    netcat-openbsd \
+    telnet \
+    dnsutils \
+    iproute2 \
+    iptables \
+    sudo \
+    psmisc \
+    procps \
+    lsof \
+    strace \
+    jq \
     ca-certificates \
     openssh-server \
-    sudo \
+    openssh-client \
     build-essential \
     git \
+    rsync \
+    zip \
+    unzip \
+    fish \
+    zsh \
+    fzf \
+    ripgrep \
+    bat \
+    eza \
     && rm -rf /var/lib/apt/lists/*
 
 # 配置SSH - 只允许密钥登录，禁用密码，启用SFTP
